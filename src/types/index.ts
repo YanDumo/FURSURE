@@ -40,3 +40,29 @@ export interface PetRecord {
 }
 
 export type Role = 'vet' | 'staff' | 'owner';
+
+export interface Schedule {
+  id: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  veterinarians: string[];
+  notes?: string;
+}
+
+export interface Service {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+}
+
+export interface Staff {
+  id: string;
+  name: string;
+  position: 'Veterinarian' | 'Vet Staff';
+  email: string;
+  phone: string;
+  status: 'active' | 'inactive';
+  licenseNumber?: string;
+}

@@ -40,6 +40,51 @@ const applicationTables = {
     ),
     paymentData: v.optional(v.any()),
   }).index("by_date", ["date"]),
+  schedules: defineTable({
+    date: v.string(),
+    startTime: v.string(),
+    endTime: v.string(),
+    veterinarians: v.array(v.string()),
+    notes: v.optional(v.string()),
+  }).index("by_date", ["date"]),
+  services: defineTable({
+    name: v.string(),
+    description: v.string(),
+    price: v.number(),
+  }),
+  staff: defineTable({
+    name: v.string(),
+    position: v.union(v.literal("Veterinarian"), v.literal("Vet Staff")),
+    email: v.string(),
+    phone: v.string(),
+    status: v.union(v.literal("active"), v.literal("inactive")),
+    licenseNumber: v.optional(v.string()), // License number for veterinarians
+  }),
+  availability: defineTable({
+    veterinarianName: v.string(),
+    workingDays: v.array(v.string()),
+    startTime: v.string(),
+    endTime: v.string(),
+    appointmentDuration: v.number(),
+    breakTime: v.number(),
+  }).index("by_veterinarian", ["veterinarianName"]),
+  users: defineTable({
+    username: v.string(),
+    email: v.string(),
+    firstName: v.optional(v.string()),
+    lastName: v.optional(v.string()),
+    phone: v.optional(v.string()),
+    address: v.optional(v.string()),
+    role: v.union(
+      v.literal("owner"),
+      v.literal("vet"),
+      v.literal("veterinarian"),
+      v.literal("clinicStaff")
+    ),
+    staffId: v.optional(v.id("staff")), // Link to staff table if applicable
+  })
+    .index("by_username", ["username"])
+    .index("by_email", ["email"]),
 };
 
 export default defineSchema({
